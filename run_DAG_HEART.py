@@ -163,7 +163,7 @@ from scipy import optimize
 from scipy.linalg import expm
 from scipy.special import logit, expit
 
-import Initialization_kernel
+import Initialization
 
 os.environ["PYTHONHASHSEED"] = str(SEED)
 random.seed(SEED)
@@ -1904,7 +1904,7 @@ def train_and_predict(
     input_a = Input(shape=input_shape, name="input_target")
     input_b = Input(shape=input_shape, name="input_source")
 
-    encoder = Initialization_kernel.Create_Model(hiddenLayers=hiddenLayers, dr=float(dr))
+    encoder = Initialization.Create_Model(hiddenLayers=hiddenLayers, dr=float(dr))
 
     processed_a = encoder(input_a)
     processed_b = encoder(input_b)
@@ -1914,8 +1914,8 @@ def train_and_predict(
     out_cls = Activation("softmax", name="classification")(logits)
 
     out_csa = Lambda(
-        Initialization_kernel.euclidean_distance,
-        output_shape=Initialization_kernel.eucl_dist_output_shape,
+        Initialization.euclidean_distance,
+        output_shape=Initialization.eucl_dist_output_shape,
         name="CSA",
     )([processed_a, processed_b])
 
@@ -1933,7 +1933,7 @@ def train_and_predict(
         optimizer=optimizer,
         loss={
             "classification": cls_loss,
-            "CSA": Initialization_kernel.contrastive_loss,
+            "CSA": Initialization.contrastive_loss,
         },
         loss_weights={"classification": 1.0 - float(alpha), "CSA": float(alpha)},
     )
@@ -1945,7 +1945,7 @@ def train_and_predict(
 
     print("Domain Adaptation Task:", domain_adaptation_task)
 
-    Initialization_kernel.Create_Pairs(
+    Initialization.Create_Pairs(
         domain_adaptation_task,
         repetition,
         sample_per_class,
@@ -1962,7 +1962,7 @@ def train_and_predict(
         smote_k_max=int(smote_k_max),
     )
 
-    Initialization_kernel.training_the_model(
+    Initialization.training_the_model(
         model=model,
         domain_adaptation_task=domain_adaptation_task,
         repetition=repetition,
