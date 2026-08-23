@@ -1980,14 +1980,6 @@ def train_and_predict(
     p_val = out_val[0]
     val_score = np.asarray(p_val, dtype=np.float64)[:, 1]
 
-    flip = False
-    if len(np.unique(y_val_target)) == 2:
-        vauc = roc_auc_score(y_val_target, val_score)
-        if vauc < 0.5:
-            flip = True
-    if flip:
-        val_score = 1.0 - val_score
-
     best_thr, best_val_f1, best_val_acc = find_best_threshold_by_f1(
         y_val_target, val_score, average="binary"
     )
@@ -1995,15 +1987,12 @@ def train_and_predict(
     out_test = model.predict([X_test, X_test], batch_size=int(batch_size), verbose=0)
     p_test = out_test[0]
     test_score = np.asarray(p_test, dtype=np.float64)[:, 1]
-    if flip:
-        test_score = 1.0 - test_score
 
     pred_test = (test_score >= best_thr).astype(int)
 
     test_auc = roc_auc_score(y_test, test_score) if len(np.unique(y_test)) == 2 else np.nan
 
-    print("flip:", flip, "best_thr:", best_thr,
-          "val_f1:", best_val_f1, "val_acc:", best_val_acc,
+    print("best_thr:", best_thr, "val_f1:", best_val_f1, "val_acc:", best_val_acc,
           "test_pred_ratio:", float(np.mean(pred_test)))
 
     return test_score.astype(float, copy=False), test_auc, float(best_thr), pred_test
