@@ -46,7 +46,7 @@ cd /your_path/DAG-HEART
 ## Instructions
 
 ```
-usage: run_DAGHEART.py [-h] --in_path IN_PATH --out_path OUT_PATH --cpoint CPOINT --year YEAR
+usage: run_DAG_HEART.py [-h] --in_path IN_PATH --out_path OUT_PATH --cpoint CPOINT --year YEAR
 
 This script implements DAG-HEART designed to improve breast cancer prognosis in underrepresented populations. It integrates biologically constrained directed acyclic graph learning with nonlinear multi-omics kernel integration, transfer learning, and target-domain data augmentation. DAG-derived molecular structure is used to guide patient-similarity representations across mRNA, miRNA, and DNA methylation data. The model transfers knowledge from the data-rich European-ancestry source domain to the data-limited African-ancestry target domain using contrastive domain adaptation.
 
@@ -63,7 +63,7 @@ optional arguments:
 ## Example  
 
 ```
-python run_DAGHEART.py \
+python run_DAG_HEART.py \
       --in_path /home/user/project/input \
       --out_path /home/user/project/output \
       --cpoint PFI \
@@ -75,5 +75,5 @@ python run_DAGHEART.py \
 We kindly ask users and contributors to utilize the Issues section of this repository for reporting bugs, requesting new features, or documenting any technical difficulties encountered during usage. We monitor submitted issues regularly and will do our best to respond in a timely and constructive manner. 
 
 ## Citation (To be updated)
-*“Title of the Paper: A Study using Transfer Learning”*  
+*“DAG-HEART: Directed Acyclic Graph-Guided Health Equity-Aware Representation Transfer Learning Framework for Breast Cancer”*  
 _Author1, Author2, et al. (Year)_
